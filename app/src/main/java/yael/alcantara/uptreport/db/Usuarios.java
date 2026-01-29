@@ -9,8 +9,17 @@ import androidx.room.PrimaryKey;
 @Entity(
         tableName = "Tabla_Usuarios",
         foreignKeys = {
+                @ForeignKey(
+                        entity = Grupo.class,
+                        parentColumns = "id",
+                        childColumns =  "idgrupo",
+                        onDelete = ForeignKey.CASCADE,
+                        onUpdate = ForeignKey.CASCADE
 
-        }
+                )
+
+        },
+        indices={@Index("idgrupo")}
 )
 public class Usuarios {
     //Atributos de la tabla de Usuarios
