@@ -46,6 +46,8 @@ public class Usuarios {
 
     @ColumnInfo(name = "contrasenia")
     private String contrasenia;
+    @ColumnInfo(name = "rol")
+    private String rol;
 
     public Usuarios(String matricula, String nombre, String apellidoP, String apellidoM,int idgrupo,String correo,String contrasenia){
         this.matricula=matricula;
@@ -117,6 +119,14 @@ public class Usuarios {
 
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 }
 
