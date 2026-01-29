@@ -10,6 +10,8 @@ import yael.alcantara.uptreport.db.Grupo;
 
 @Dao
 public interface GrupoDao {
+
+    //Funciones de la tabla Grupo
     @Insert
     void insertarGrupo(Grupo grupo);
 
@@ -19,6 +21,7 @@ public interface GrupoDao {
     @Delete
     void borrarGrupo(Grupo grupo);
 
+    //Consultas
     @Query("SELECT * FROM tabla_grupo WHERE grupo = :grupo LIMIT 1")
     Grupo buscarPorNombre(String grupo);
 

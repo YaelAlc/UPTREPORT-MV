@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "Tabla_grupo")
 public class Grupo {
+    //Atributos de la tabla grupo
     @PrimaryKey(autoGenerate = true)
     private int id;
 

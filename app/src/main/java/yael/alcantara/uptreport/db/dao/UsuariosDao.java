@@ -9,6 +9,8 @@ import yael.alcantara.uptreport.db.Usuarios;
 
 @Dao
 public interface UsuariosDao {
+
+    //funciones de la tabla Usuarios
     @Insert
     void insertarUsuario(Usuarios usuarios);
 
@@ -18,6 +20,7 @@ public interface UsuariosDao {
     @Delete
     void borrarUsuario(Usuarios usuarios);
 
+    //Consultas
     @Query("SELECT id FROM tabla_usuarios WHERE matricula= :matricula LIMIT 1")
     int obtenerIdPorMatricula(String matricula);
 }
