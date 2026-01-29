@@ -23,6 +23,6 @@ public interface GrupoDao {
 
     //Consultas
     @Query("SELECT * FROM tabla_grupo WHERE grupo = :grupo LIMIT 1")
-    Grupo buscarPorNombre(String grupo);
+    Grupo buscarPorNombreG(String grupo);
 
 }
