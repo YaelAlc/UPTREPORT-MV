@@ -1,12 +1,10 @@
-package yael.alcantara.uptreport.db.dao;
+package yael.alcantara.uptreport.db;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
-import yael.alcantara.uptreport.db.Edificio;
 
 @Entity(tableName = "Tabla_Salon",
         foreignKeys = {
