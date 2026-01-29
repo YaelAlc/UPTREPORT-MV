@@ -1,9 +1,10 @@
 package yael.alcantara.uptreport.db;
 
 import androidx.room.ColumnInfo;
+import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-
+@Entity(tableName = "Tabla_grupo")
 public class Grupo {
     @PrimaryKey(autoGenerate = true)
     private int id;
