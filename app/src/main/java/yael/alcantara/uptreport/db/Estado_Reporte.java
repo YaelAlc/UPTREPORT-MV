@@ -10,10 +10,10 @@ public class Estado_Reporte {
     private int id;
 
     @ColumnInfo(name =  "Estado_Reporte")
-    private String Estado;
+    private String Estado_Reporte;
 
-    public Estado_Reporte(String Estado){
-        this. Estado= Estado;
+    public Estado_Reporte(String Estado_Reportes){
+        this. Estado_Reporte= Estado_Reportes;
     }
 
     public int getId() {
@@ -24,11 +24,11 @@ public class Estado_Reporte {
         this.id = id;
     }
 
-    public String getEstado(){
-        return Estado;
+    public String getEstado_Reporte(){
+        return Estado_Reporte;
     }
 
-    public void setEstado(String Estado) {
-        Estado = Estado;
+    public void setEstado_Reporte(String estado_Reporte) {
+        Estado_Reporte = estado_Reporte;
     }
 }
