@@ -15,10 +15,17 @@ import androidx.room.PrimaryKey;
                         childColumns =  "idgrupo",
                         onDelete = ForeignKey.CASCADE,
                         onUpdate = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = Tipo_Usuario.class,
+                        parentColumns = "id",
+                        childColumns = "id_tipo",
+                        onDelete = ForeignKey.CASCADE,
+                        onUpdate = ForeignKey.CASCADE
                 )
 
         },
-        indices={@Index("idgrupo")}
+        indices={@Index("idgrupo"), @Index("id_tipo")}
 )
 public class Usuarios {
     //Atributos de la tabla de Usuarios
@@ -45,8 +52,8 @@ public class Usuarios {
 
     @ColumnInfo(name = "contrasenia")
     private String contrasenia;
-    @ColumnInfo(name = "rol")
-    private String rol;
+    @ColumnInfo(name = "id_tipo")
+    private int id_tipo;
 
     public Usuarios(int matricula, String nombre, String apellidoP, String apellidoM,int idgrupo,String correo,String contrasenia){
         this.matricula=matricula;
@@ -120,12 +127,12 @@ public class Usuarios {
         this.contrasenia = contrasenia;
     }
 
-    public String getRol() {
-        return rol;
+    public void setId_tipo(int id_tipo) {
+        this.id_tipo = id_tipo;
     }
 
-    public void setRol(String rol) {
-        this.rol = rol;
+    public int getId_tipo() {
+        return id_tipo;
     }
 }
 
