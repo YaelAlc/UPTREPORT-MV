@@ -33,12 +33,14 @@ import java.util.Date;
                         onDelete = ForeignKey.CASCADE
                 ),
                 @ForeignKey(
-                  entity = Estado_Reporte.class,
-                  parentColumns = "id",
-                  childColumns = ""
+                        entity = Estado_Reporte.class,
+                        parentColumns = "id",
+                        childColumns = "id_estado",
+                        onUpdate = ForeignKey.CASCADE,
+                        onDelete = ForeignKey.CASCADE
                 )
         },
-        indices = {@Index("idedificio"), @Index("idsalon"), @Index("idusuarios")}
+        indices = {@Index("idedificio"), @Index("idsalon"), @Index("idusuarios"), @Index("id_estado")}
 )
 public class Reportes {
 

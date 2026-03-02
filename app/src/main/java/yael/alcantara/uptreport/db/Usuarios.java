@@ -15,7 +15,6 @@ import androidx.room.PrimaryKey;
                         childColumns =  "idgrupo",
                         onDelete = ForeignKey.CASCADE,
                         onUpdate = ForeignKey.CASCADE
-
                 )
 
         },
