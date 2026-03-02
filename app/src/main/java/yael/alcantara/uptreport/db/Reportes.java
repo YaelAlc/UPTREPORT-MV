@@ -1,17 +1,15 @@
 package yael.alcantara.uptreport.db;
 
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import java.sql.Blob;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity(
-        tableName =  "Tabla_Reportes",
+        tableName = "Tabla_Reportes",
         foreignKeys = {
                 @ForeignKey(
                         entity = Edificio.class,
@@ -19,7 +17,6 @@ import java.sql.Date;
                         childColumns = "idedificio",
                         onUpdate = ForeignKey.CASCADE,
                         onDelete = ForeignKey.CASCADE
-
                 ),
                 @ForeignKey(
                         entity = Salon.class,
@@ -36,37 +33,48 @@ import java.sql.Date;
                         onDelete = ForeignKey.CASCADE
                 )
         },
-        indices = {@Index("idedificio")}
+        indices = {@Index("idedificio"), @Index("idsalon"), @Index("idusuarios")}
 )
 public class Reportes {
-    //Atributos de la tabla de Reportes
+
     @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name = "Nombre")
     private String Nombre;
+
     @ColumnInfo(name = "ApellidoP")
     private String ApellidoP;
+
     @ColumnInfo(name = "ApellidoM")
     private String ApellidoM;
+
     @ColumnInfo(name = "Matricula")
     private int Matricula;
+
     @ColumnInfo(name = "Grupo")
     private String Grupo;
+
     @ColumnInfo(name = "idedificio")
     private int idedificio;
+
     @ColumnInfo(name = "idsalon")
     private int idsalon;
+
+    @ColumnInfo(name = "idusuarios")
+    private int idusuarios;
+
     @ColumnInfo(name = "Descripcion")
-    private Blob Descripcion;
-    @ColumnInfo(name = "Evidencia")
-    private Blob Evidencia;
+    private String Descripcion;
+
     @ColumnInfo(name = "Fecha")
     private Date Fecha;
+
     @ColumnInfo(name = "Estado_Reporte")
     private String Estado_Reporte;
 
-    public Reportes(String Nombre, String ApellidoP, String ApellidoM, int Matricula, String Grupo, int idedificio, int idsalon, Blob Descripcion, Blob Evidencia, Date Fecha, String Estado_Reporte){
+
+    public Reportes(String Nombre, String ApellidoP, String ApellidoM, int Matricula, String Grupo, int idedificio, int idsalon, int idusuarios, String Descripcion, Date Fecha, String Estado_Reporte){
         this.Nombre = Nombre;
         this.ApellidoP = ApellidoP;
         this.ApellidoM = ApellidoM;
@@ -74,35 +82,45 @@ public class Reportes {
         this.Grupo = Grupo;
         this.idedificio = idedificio;
         this.idsalon = idsalon;
+        this.idusuarios = idusuarios;
         this.Descripcion = Descripcion;
-        this.Evidencia = Evidencia;
         this.Fecha = Fecha;
         this.Estado_Reporte = Estado_Reporte;
     }
 
     public int getId(){return id;}
     public void setId(int id){this.id = id;}
+
     public String getNombre(){return Nombre;}
-    public void setNombre(String nombre){this.Nombre = Nombre;}
+    public void setNombre(String nombre){this.Nombre = nombre;}
+
     public String getApellidoP(){return ApellidoP;}
-    public void setApellidoP(String apellidoP){this.ApellidoP = ApellidoP;}
+    public void setApellidoP(String apellidoP){this.ApellidoP = apellidoP;}
+
     public String getApellidoM(){return ApellidoM;}
-    public void setApellidoM(String apellidoM){this.ApellidoM = ApellidoM;}
-    public int getMatricula(){return  Matricula;}
-    public void setMatricula(int matricula){this.Matricula = Matricula;}
+    public void setApellidoM(String apellidoM){this.ApellidoM = apellidoM;}
+
+    public int getMatricula(){return Matricula;}
+    public void setMatricula(int matricula){this.Matricula = matricula;}
+
     public String getGrupo(){return Grupo;}
-    public void setGrupo(String grupo){this.Grupo = Grupo;}
+    public void setGrupo(String grupo){this.Grupo = grupo;}
+
     public int getIdedificio(){return idedificio;}
     public void setIdedificio(int idedificio){this.idedificio = idedificio;}
+
     public int getIdsalon(){return idsalon;}
     public void setIdsalon(int idsalon){this.idsalon = idsalon;}
-    public Blob getDescripcion(){return Descripcion;}
-    public void setDescripcion(Blob descripcion){this.Descripcion = Descripcion;}
-    public Blob getEvidencia(){return Evidencia;}
-    public void setEvidencia(Blob evidencia){this.Evidencia = Evidencia;}
-    public Date getFecha(){return Fecha;}
-    public void setFecha(Date fecha){this.Fecha = Fecha;}
-    public String getEstado_Reporte(){return Estado_Reporte;}
-    public void setEstado_Reporte(String estado_Reporte){this.Estado_Reporte = Estado_Reporte;}
 
+    public int getIdusuarios(){return idusuarios;}
+    public void setIdusuarios(int idusuarios){this.idusuarios = idusuarios;}
+
+    public String getDescripcion(){return Descripcion;}
+    public void setDescripcion(String descripcion){this.Descripcion = descripcion;}
+
+    public Date getFecha(){return Fecha;}
+    public void setFecha(Date fecha){this.Fecha = fecha;}
+
+    public String getEstado_Reporte(){return Estado_Reporte;}
+    public void setEstado_Reporte(String estado_Reporte){this.Estado_Reporte = estado_Reporte;}
 }
