@@ -31,6 +31,11 @@ import java.util.Date;
                         childColumns = "idusuarios",
                         onUpdate = ForeignKey.CASCADE,
                         onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                  entity = Estado_Reporte.class,
+                  parentColumns = "id",
+                  childColumns = ""
                 )
         },
         indices = {@Index("idedificio"), @Index("idsalon"), @Index("idusuarios")}
@@ -70,11 +75,11 @@ public class Reportes {
     @ColumnInfo(name = "Fecha")
     private Date Fecha;
 
-    @ColumnInfo(name = "Estado_Reporte")
-    private String Estado_Reporte;
+    @ColumnInfo(name = "id_estado")
+    private int id_estado;
 
 
-    public Reportes(String Nombre, String ApellidoP, String ApellidoM, int Matricula, String Grupo, int idedificio, int idsalon, int idusuarios, String Descripcion, Date Fecha, String Estado_Reporte){
+    public Reportes(String Nombre, String ApellidoP, String ApellidoM, int Matricula, String Grupo, int idedificio, int idsalon, int idusuarios, String Descripcion, Date Fecha, int id_estado){
         this.Nombre = Nombre;
         this.ApellidoP = ApellidoP;
         this.ApellidoM = ApellidoM;
@@ -85,7 +90,7 @@ public class Reportes {
         this.idusuarios = idusuarios;
         this.Descripcion = Descripcion;
         this.Fecha = Fecha;
-        this.Estado_Reporte = Estado_Reporte;
+        this.id_estado = id_estado;
     }
 
     public int getId(){return id;}
@@ -121,6 +126,6 @@ public class Reportes {
     public Date getFecha(){return Fecha;}
     public void setFecha(Date fecha){this.Fecha = fecha;}
 
-    public String getEstado_Reporte(){return Estado_Reporte;}
-    public void setEstado_Reporte(String estado_Reporte){this.Estado_Reporte = estado_Reporte;}
+    public int getId_estado(){return id_estado;}
+    public void setId_estado(int id_estado){this.id_estado = id_estado;}
 }
