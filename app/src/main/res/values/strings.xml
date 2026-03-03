@@ -3,4 +3,10 @@
     <string name="siguiente">Siguiente</string>
     <string name="descricion">Descripción:</string>
     <string name="reporte">Reporte</string>
+    <string name="adjuntar_evidencia">Adjuntar Evidencia</string>
+    <string name="edificio">Edificio</string>
+    <string name="salon">Salón</string>
+    <string name="fecha">Fecha:</string>
+    <string name="enviar">Enviar</string>
+    <string name="dd_mm_anio">dd/mm/año</string>
 </resources>
