@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UPTREPORT">
         <activity
+            android:name=".segunda_interfaz_reporte"
+            android:exported="false" />
+        <activity
             android:name=".Primera_interfaz_reporte"
             android:exported="false" />
         <activity
