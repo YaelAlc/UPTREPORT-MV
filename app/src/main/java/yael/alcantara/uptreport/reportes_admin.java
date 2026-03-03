@@ -1,24 +1,33 @@
 package yael.alcantara.uptreport;
-
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class reportes_admin extends AppCompatActivity {
+
+    RecyclerView recyclerReportes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_reportes_admin);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        recyclerReportes = findViewById(R.id.recyclerReportes);
+
+        recyclerReportes.setLayoutManager(new LinearLayoutManager(this));
+
+        // Datos de prueba (luego los cambiamos por la BD)
+        List<String> lista = new ArrayList<>();
+        lista.add("Reporte 1");
+        lista.add("Reporte 2");
+        lista.add("Reporte 3");
+
+        ReporteAdapter adapter = new ReporteAdapter(lista);
+        recyclerReportes.setAdapter(adapter);
     }
 }
