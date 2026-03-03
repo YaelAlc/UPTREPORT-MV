@@ -9,4 +9,6 @@
     <string name="fecha">Fecha:</string>
     <string name="enviar">Enviar</string>
     <string name="dd_mm_anio">dd/mm/año</string>
+    <string name="historial_reportes">Historial Reportes</string>
+    <string name="estado">Estado del reporte</string>
 </resources>
