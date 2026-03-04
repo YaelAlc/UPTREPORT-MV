@@ -1,14 +1,21 @@
 package yael.alcantara.uptreport;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import yael.alcantara.uptreport.db.Grupo;
+import yael.alcantara.uptreport.db.Usuarios;
 import yael.alcantara.uptreport.db.appDatabase;
+import yael.alcantara.uptreport.db.dao.UsuariosDao;
 
 
 public class registro_usuario extends AppCompatActivity {
@@ -17,6 +24,8 @@ public class registro_usuario extends AppCompatActivity {
     private Spinner spinnerGrupo;
 
     private Button btnGuardar;
+
+    List <Grupo> listaGrupo;
 
 
     @Override
@@ -33,6 +42,51 @@ public class registro_usuario extends AppCompatActivity {
         btnGuardar =findViewById(R.id.btnGuardar);
 
         appDatabase db = appDatabase.getInstance(this);
+        UsuariosDao dao = db.usuariosDao();
+
+        listaGrupo =db.grupoDao().obtenerGrupos();
+
+        List<String> nombresGrupos =new ArrayList<>();
+        for (Grupo g: listaGrupo){
+            nombresGrupos.add(g.getGrupo());
+        }
+
+        ArrayAdapter<String> adapterGrupo = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item,
+                nombresGrupos);
+
+        adapterGrupo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerGrupo.setAdapter(adapterGrupo);
+
+        btnGuardar.setOnClickListener(v -> {
+
+            String nombre = edtNombre.getText().toString().trim();
+            String ApellidoP = edtApellidoP.getText().toString().trim();
+            String ApellidoM = edtApellidoM.getText().toString().trim();
+            String correo =edtCorreo.getText().toString().trim();
+            String contrasenia = edtContrasenia.getText().toString().trim();
+            Bundle extras=getIntent().getExtras();
+            int matricula=extras.getInt("matricula");
+
+            new Thread(() -> {
+
+                Usuarios existente = dao.obtenerUsuario(matricula);
+
+                runOnUiThread(() -> {
+                    if (existente != null) {
+                        edtMatricula.setError("Ya existe un usuario con esta matricula");
+                    }
+                });
+
+                if (existente == null) {
+                    Usuarios nuevo = new Usuarios();
+                    dao.insertarUsuario(nuevo);
+
+
+                    runOnUiThread(this::finish);
+                }
+            }).start();
+        });
 
 
 

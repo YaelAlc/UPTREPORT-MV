@@ -6,6 +6,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.List;
+
 import yael.alcantara.uptreport.db.Grupo;
 
 @Dao
@@ -26,5 +28,8 @@ public interface GrupoDao {
     Grupo buscarPorNombreG(String grupo);
     @Query("SELECT * FROM tabla_grupo")
     int getCount();
+
+    @Query("SELECT * FROM tabla_grupo")
+    List<Grupo> obtenerGrupos();
 
 }
