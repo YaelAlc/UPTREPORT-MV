@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(tipo_usuariosDAo.getCount()==0){
             tipo_usuariosDAo.insertarTipo(new Tipo_Usuario("alumno"));
-            tipo_usuariosDAo.insertarTipo(new Tipo_Usuario("docente"));
             tipo_usuariosDAo.insertarTipo(new Tipo_Usuario("administrativo"));
         }
 

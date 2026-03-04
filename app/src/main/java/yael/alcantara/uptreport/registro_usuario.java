@@ -69,25 +69,19 @@ public class registro_usuario extends AppCompatActivity {
             Integer matricula = Integer.valueOf(mat);
             String grupoSeleccionado = spinnerGrupo.getSelectedItem().toString();
 
-            int idgrupo =0;
-            for(Grupo g: listaGrupo){
-                if (g.getGrupo().equals(grupoSeleccionado)){
-                    idgrupo =g.getId();
-                    break;
-                }
-            }
+            int idgrupo = listaGrupo.stream().filter(g -> g.getGrupo().equals(grupoSeleccionado)).findFirst().map(Grupo::getId).orElse(0);
 
             new Thread(() -> {
-                // 1. Buscamos en segundo plano
+
                 Usuarios existente = dao.obtenerIdPorMatricula(matricula);
 
-                // 2. Volvemos al hilo principal para actualizar la interfaz
+
                 runOnUiThread(() -> {
                     if (existente != null) {
                         edtMatricula.setError("Ya existe un usuario con esta matricula");
                     } else{
                         if (existente == null) {
-                            Usuarios nuevo = new Usuarios(matricula, nombre, ApellidoP, ApellidoM, idgrupo, );
+                            Usuarios nuevo = new Usuarios(matricula, nombre, ApellidoP, ApellidoM, idgrupo, correo, contrasenia, "1");
                             dao.insertarUsuario(nuevo);
 
 
