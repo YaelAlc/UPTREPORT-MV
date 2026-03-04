@@ -24,5 +24,7 @@ public interface GrupoDao {
     //Consultas
     @Query("SELECT * FROM tabla_grupo WHERE grupo = :grupo LIMIT 1")
     Grupo buscarPorNombreG(String grupo);
+    @Query("SELECT * FROM tabla_grupo")
+    int getCount();
 
 }

@@ -4,6 +4,7 @@ package yael.alcantara.uptreport.db.dao;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.Query;
 import androidx.room.Update;
 
 import yael.alcantara.uptreport.db.Estado_Reporte;
@@ -18,4 +19,7 @@ public interface Estado_ReporteDao {
 
     @Delete
     void borrarEstado(Estado_Reporte estado_reporte);
+    @Query("SELECT * FROM tabla_estado_reporte")
+    int getCount();
+
 }

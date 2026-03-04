@@ -22,4 +22,7 @@ public interface EdificioDao {
 
     @Query("SELECT * FROM tabla_edificios WHERE edificio = :edificio LIMIT 1")
     Edificio buscarporNombreE(String edificio);
+
+    @Query("SELECT * FROM tabla_edificios")
+    int getCount();
 }

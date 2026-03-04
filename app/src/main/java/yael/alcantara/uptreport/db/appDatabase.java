@@ -44,7 +44,7 @@ public abstract class appDatabase extends  RoomDatabase{
 
     public abstract SalonDao salonDao();
 
-    public abstract Tipo_Usuario tipo_usuario();
+    public abstract Tipo_Usuario tipo_usuariosDAo();
 
     public abstract UsuariosDao usuariosDao();
 
