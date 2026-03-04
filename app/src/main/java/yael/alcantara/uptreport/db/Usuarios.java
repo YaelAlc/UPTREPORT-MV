@@ -53,9 +53,9 @@ public class Usuarios {
     @ColumnInfo(name = "contrasenia")
     private String contrasenia;
     @ColumnInfo(name = "id_tipo")
-    private int id_tipo;
+    private String id_tipo;
 
-    public Usuarios(int matricula, String nombre, String apellidoP, String apellidoM,int idgrupo,String correo,String contrasenia){
+    public Usuarios(int matricula, String nombre, String apellidoP, String apellidoM,int idgrupo,String correo,String contrasenia, String id_tipo){
         this.matricula=matricula;
         this.nombre = nombre;
         this.apellidoM = apellidoM;
@@ -63,6 +63,7 @@ public class Usuarios {
         this.idgrupo= idgrupo;
         this.correo= correo;
         this.contrasenia=contrasenia;
+        this.id_tipo=id_tipo;
     }
     public int getId(){
         return id;
@@ -127,11 +128,11 @@ public class Usuarios {
         this.contrasenia = contrasenia;
     }
 
-    public void setId_tipo(int id_tipo) {
+    public void setId_tipo(String id_tipo) {
         this.id_tipo = id_tipo;
     }
 
-    public int getId_tipo() {
+    public String getId_tipo() {
         return id_tipo;
     }
 }

@@ -65,27 +65,38 @@ public class registro_usuario extends AppCompatActivity {
             String ApellidoM = edtApellidoM.getText().toString().trim();
             String correo =edtCorreo.getText().toString().trim();
             String contrasenia = edtContrasenia.getText().toString().trim();
-            Bundle extras=getIntent().getExtras();
-            int matricula=extras.getInt("matricula");
+            String mat= edtMatricula.getText().toString().trim();
+            Integer matricula = Integer.valueOf(mat);
+            String grupoSeleccionado = spinnerGrupo.getSelectedItem().toString();
+
+            int idgrupo =0;
+            for(Grupo g: listaGrupo){
+                if (g.getGrupo().equals(grupoSeleccionado)){
+                    idgrupo =g.getId();
+                    break;
+                }
+            }
 
             new Thread(() -> {
+                // 1. Buscamos en segundo plano
+                Usuarios existente = dao.obtenerIdPorMatricula(matricula);
 
-                Usuarios existente = dao.obtenerUsuario(matricula);
-
+                // 2. Volvemos al hilo principal para actualizar la interfaz
                 runOnUiThread(() -> {
                     if (existente != null) {
                         edtMatricula.setError("Ya existe un usuario con esta matricula");
+                    } else{
+                        if (existente == null) {
+                            Usuarios nuevo = new Usuarios(matricula, nombre, ApellidoP, ApellidoM, idgrupo, );
+                            dao.insertarUsuario(nuevo);
+
+
+                            runOnUiThread(this::finish);
+                        }
                     }
                 });
-
-                if (existente == null) {
-                    Usuarios nuevo = new Usuarios();
-                    dao.insertarUsuario(nuevo);
-
-
-                    runOnUiThread(this::finish);
-                }
             }).start();
+
         });
 
 
