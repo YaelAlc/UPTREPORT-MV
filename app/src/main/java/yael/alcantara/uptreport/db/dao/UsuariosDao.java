@@ -21,7 +21,7 @@ public interface UsuariosDao {
     void borrarUsuario(Usuarios usuarios);
 
     //Consultas
-    @Query("SELECT id FROM tabla_usuarios WHERE matricula= :matricula LIMIT 1")
+    @Query("SELECT * FROM tabla_usuarios WHERE matricula= :matricula LIMIT 1")
     Usuarios obtenerIdPorMatricula(Integer matricula);
 
     @Query("SELECT * FROM tabla_usuarios WHERE matricula = :matricula  AND contrasenia = :contrasenia LIMIT 1")

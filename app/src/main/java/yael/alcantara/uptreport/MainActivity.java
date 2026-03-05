@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,68 +21,71 @@ import yael.alcantara.uptreport.db.dao.UsuariosDao;
 
 public class MainActivity extends AppCompatActivity {
     private EditText edtMatricula, edtPasword;
-
-    private Button btnLogin, btnResgistro;
-
+    private Button btnLogin, btnRegistro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ventana_inicio_de_sesion);
 
-        edtPasword= findViewById(R.id.edtPassword);
-        edtMatricula=findViewById(R.id.edtMatricula);
+        // 1. Inicializar vistas (Indispensable para evitar Crash)
+        edtPasword = findViewById(R.id.edtPassword);
+        edtMatricula = findViewById(R.id.edtMatricula);
+        btnLogin = findViewById(R.id.btnLogin);
+        btnRegistro = findViewById(R.id.btnRegistro);
 
+        appDatabase db = appDatabase.getInstance(this);
+        UsuariosDao dao = db.usuariosDao();
+        Tipo_UsuariosDAo tipo_usuariosDAo = db.tipo_usuariosDAo();
+        Estado_ReporteDao estado_reporteDao = db.estado_reporteDao();
+        GrupoDao grupoDao = db.grupoDao();
 
-        appDatabase db= appDatabase.getInstance(this);
-        UsuariosDao dao= db.usuariosDao();
+        // 2. Operaciones de base de datos (Ejecutar en hilo para mejor rendimiento)
+        new Thread(() -> {
+            if (tipo_usuariosDAo.getCount() == 0) {
+                tipo_usuariosDAo.insertarTipo(new Tipo_Usuario("alumno"));
+                tipo_usuariosDAo.insertarTipo(new Tipo_Usuario("administrativo"));
+            }
 
-        Tipo_UsuariosDAo tipo_usuariosDAo = (Tipo_UsuariosDAo) db.tipo_usuariosDAo();
-        Estado_ReporteDao estado_reporteDao= db.estado_reporteDao();
-        GrupoDao grupoDao= db.grupoDao();
+            if (estado_reporteDao.getCount() == 0) {
+                estado_reporteDao.insertarEstado(new Estado_Reporte("Pendiente"));
+                estado_reporteDao.insertarEstado(new Estado_Reporte("En curso"));
+                estado_reporteDao.insertarEstado(new Estado_Reporte("Resuelto"));
+            }
 
-        if(tipo_usuariosDAo.getCount()==0){
-            tipo_usuariosDAo.insertarTipo(new Tipo_Usuario("alumno"));
-            tipo_usuariosDAo.insertarTipo(new Tipo_Usuario("administrativo"));
-        }
-
-        if (estado_reporteDao.getCount()==0){
-            estado_reporteDao.insertarEstado(new Estado_Reporte("Pendiente"));
-            estado_reporteDao.insertarEstado(new Estado_Reporte("En curso"));
-            estado_reporteDao.insertarEstado(new Estado_Reporte("Resuelto"));
-        }
-
-        if (grupoDao.getCount()==0){
-            grupoDao.insertarGrupo(new Grupo("2526ITII"));
-            grupoDao.insertarGrupo(new Grupo("2425ITII"));
-        }
+            if (grupoDao.getCount() == 0) {
+                grupoDao.insertarGrupo(new Grupo("2526ITII"));
+                grupoDao.insertarGrupo(new Grupo("2425ITII"));
+            }
+        }).start();
 
         btnLogin.setOnClickListener(v -> {
             String matricula = edtMatricula.getText().toString().trim();
             String contrasenia = edtPasword.getText().toString().trim();
-            
-            new Thread(()->{
-                Usuarios usuarios = dao.iniciar(matricula, contrasenia);
 
-                runOnUiThread(()->{
-                    if( matricula != null ) {
+            if (matricula.isEmpty() || contrasenia.isEmpty()) {
+                Toast.makeText(this, "Por favor llena todos los campos", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            new Thread(() -> {
+                Usuarios usuario = dao.iniciar(matricula, contrasenia);
+
+                runOnUiThread(() -> {
+                    if (usuario != null) {
                         Intent ventanaPrimeraI = new Intent(MainActivity.this, Primera_interfaz_reporte.class);
                         startActivity(ventanaPrimeraI);
-                    }else {
-                        edtPasword.setError("Usuaio o contrasenia incorrectos");
+                        finish(); // Opcional: cerrar login al entrar
+                    } else {
+                        edtPasword.setError("Usuario o contraseña incorrectos");
                     }
                 });
             }).start();
         });
-        btnResgistro.setOnClickListener(v -> {
-            Intent vRegistro=new Intent(MainActivity.this, registro_usuario.class);
+
+        btnRegistro.setOnClickListener(v -> {
+            Intent vRegistro = new Intent(MainActivity.this, registro_usuario.class);
             startActivity(vRegistro);
         });
-
-
-
-
-
-
     }
 }

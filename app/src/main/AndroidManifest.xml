@@ -15,9 +15,6 @@
             android:name=".historial_admin"
             android:exported="false" />
         <activity
-            android:name=".reporte_admin"
-            android:exported="false" />
-        <activity
             android:name=".reportes_admin"
             android:exported="false" />
         <activity

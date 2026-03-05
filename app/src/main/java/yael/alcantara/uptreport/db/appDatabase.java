@@ -6,6 +6,7 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 import yael.alcantara.uptreport.db.dao.EdificioDao;
 import yael.alcantara.uptreport.db.dao.Estado_ReporteDao;
@@ -13,6 +14,7 @@ import yael.alcantara.uptreport.db.dao.EvidenciasDao;
 import yael.alcantara.uptreport.db.dao.GrupoDao;
 import yael.alcantara.uptreport.db.dao.ReportesDao;
 import yael.alcantara.uptreport.db.dao.SalonDao;
+import yael.alcantara.uptreport.db.dao.Tipo_UsuariosDAo;
 import yael.alcantara.uptreport.db.dao.UsuariosDao;
 
 @Database(
@@ -30,6 +32,7 @@ import yael.alcantara.uptreport.db.dao.UsuariosDao;
         version = 1,
         exportSchema = false
 )
+@TypeConverters({Converters.class})
 public abstract class appDatabase extends  RoomDatabase{
 
     public abstract EdificioDao edificioDao();
@@ -44,7 +47,7 @@ public abstract class appDatabase extends  RoomDatabase{
 
     public abstract SalonDao salonDao();
 
-    public abstract Tipo_Usuario tipo_usuariosDAo();
+    public abstract Tipo_UsuariosDAo tipo_usuariosDAo();
 
     public abstract UsuariosDao usuariosDao();
 

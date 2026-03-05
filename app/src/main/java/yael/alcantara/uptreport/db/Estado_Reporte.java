@@ -12,8 +12,8 @@ public class Estado_Reporte {
     @ColumnInfo(name =  "Estado_Reporte")
     private String Estado_Reporte;
 
-    public Estado_Reporte(String Estado_Reportes){
-        this. Estado_Reporte= Estado_Reportes;
+    public Estado_Reporte(String Estado_Reporte){
+        this. Estado_Reporte= Estado_Reporte;
     }
 
     public int getId() {
@@ -29,6 +29,6 @@ public class Estado_Reporte {
     }
 
     public void setEstado_Reporte(String estado_Reporte) {
-        Estado_Reporte = estado_Reporte;
+        this.Estado_Reporte = estado_Reporte;
     }
 }
