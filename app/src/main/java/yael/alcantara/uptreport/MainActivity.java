@@ -73,9 +73,21 @@ public class MainActivity extends AppCompatActivity {
 
                 runOnUiThread(() -> {
                     if (usuario != null) {
-                        Intent ventanaPrimeraI = new Intent(MainActivity.this, Primera_interfaz_reporte.class);
-                        startActivity(ventanaPrimeraI);
-                        finish(); // Opcional: cerrar login al entrar
+                        int tipo = Integer.parseInt(usuario.getId_tipo());
+
+                        if (tipo == 1) {
+
+                            Intent ventanaAlumno = new Intent(MainActivity.this, Primera_interfaz_reporte.class);
+                            startActivity(ventanaAlumno);
+                            finish();
+
+                        } else if (tipo == 2) {
+
+                            Intent ventanaAdmin = new Intent(MainActivity.this, reportes_admin.class);
+                            startActivity(ventanaAdmin);
+                            finish();
+
+                        }
                     } else {
                         edtPasword.setError("Usuario o contraseña incorrectos");
                     }
@@ -83,9 +95,5 @@ public class MainActivity extends AppCompatActivity {
             }).start();
         });
 
-        btnRegistro.setOnClickListener(v -> {
-            Intent vRegistro = new Intent(MainActivity.this, registro_usuario.class);
-            startActivity(vRegistro);
-        });
     }
 }
