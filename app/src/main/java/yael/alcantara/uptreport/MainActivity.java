@@ -59,6 +59,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
 
+        btnRegistro.setOnClickListener(v -> {
+                    Intent ventanaRegistro = new Intent(MainActivity.this, registro_usuario.class);
+                    startActivity(ventanaRegistro);
+                    finish();
+                });
+
+
         btnLogin.setOnClickListener(v -> {
             String matricula = edtMatricula.getText().toString().trim();
             String contrasenia = edtPasword.getText().toString().trim();
@@ -94,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
                 });
             }).start();
         });
+
+
 
     }
 }

@@ -1,24 +1,35 @@
 package yael.alcantara.uptreport;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
 
 public class Primera_interfaz_reporte extends AppCompatActivity {
+     public EditText edtDescripcion;
+     public Button btnSiguiente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_primera_interfaz_reporte);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        edtDescripcion=findViewById(R.id.edtmDescripcion);
+        btnSiguiente=findViewById(R.id.btnSiguiente);
+        btnSiguiente.setOnClickListener(v -> {
+            String descripcion = edtDescripcion.getText().toString().trim();
+
+            if(!descripcion.isEmpty()){
+                Intent siguientePag = new Intent(Primera_interfaz_reporte.this, segunda_interfaz_reporte.class);
+                siguientePag.putExtra("descripcion", descripcion);
+                startActivity(siguientePag);
+                finish();
+            } else {
+                edtDescripcion.setError("Ingresa una descripción");
+                edtDescripcion.requestFocus();
+            }
         });
     }
 }
