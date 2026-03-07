@@ -27,4 +27,6 @@ public interface UsuariosDao {
     @Query("SELECT * FROM tabla_usuarios WHERE matricula = :matricula  AND contrasenia = :contrasenia LIMIT 1")
     Usuarios iniciar(String matricula, String contrasenia);
 
+    @Query("SELECT * FROM tabla_usuarios WHERE id = :id LIMIT 1")
+    Usuarios getUsuarioById(int id);
 }

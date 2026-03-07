@@ -6,6 +6,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.List;
+
 import yael.alcantara.uptreport.db.Edificio;
 
 @Dao
@@ -22,6 +24,9 @@ public interface EdificioDao {
 
     @Query("SELECT * FROM tabla_edificios WHERE edificio = :edificio LIMIT 1")
     Edificio buscarporNombreE(String edificio);
+
+    @Query("SELECT * FROM tabla_edificios")
+    List<Edificio> getAllEdificios();
 
     @Query("SELECT * FROM tabla_edificios")
     int getCount();

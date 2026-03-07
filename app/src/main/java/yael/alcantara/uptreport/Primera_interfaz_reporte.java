@@ -11,11 +11,15 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Primera_interfaz_reporte extends AppCompatActivity {
      public EditText edtDescripcion;
      public Button btnSiguiente;
+     private int idUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_primera_interfaz_reporte);
+        
+        idUsuario = getIntent().getIntExtra("idUsuario", -1);
+        
         edtDescripcion=findViewById(R.id.edtmDescripcion);
         btnSiguiente=findViewById(R.id.btnSiguiente);
         btnSiguiente.setOnClickListener(v -> {
@@ -24,6 +28,7 @@ public class Primera_interfaz_reporte extends AppCompatActivity {
             if(!descripcion.isEmpty()){
                 Intent siguientePag = new Intent(Primera_interfaz_reporte.this, segunda_interfaz_reporte.class);
                 siguientePag.putExtra("descripcion", descripcion);
+                siguientePag.putExtra("idUsuario", idUsuario);
                 startActivity(siguientePag);
                 finish();
             } else {

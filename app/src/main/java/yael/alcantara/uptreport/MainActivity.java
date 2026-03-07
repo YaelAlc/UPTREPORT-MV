@@ -9,13 +9,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import yael.alcantara.uptreport.db.Edificio;
 import yael.alcantara.uptreport.db.Estado_Reporte;
 import yael.alcantara.uptreport.db.Grupo;
+import yael.alcantara.uptreport.db.Salon;
 import yael.alcantara.uptreport.db.Tipo_Usuario;
 import yael.alcantara.uptreport.db.Usuarios;
 import yael.alcantara.uptreport.db.appDatabase;
+import yael.alcantara.uptreport.db.dao.EdificioDao;
 import yael.alcantara.uptreport.db.dao.Estado_ReporteDao;
 import yael.alcantara.uptreport.db.dao.GrupoDao;
+import yael.alcantara.uptreport.db.dao.SalonDao;
 import yael.alcantara.uptreport.db.dao.Tipo_UsuariosDAo;
 import yael.alcantara.uptreport.db.dao.UsuariosDao;
 
@@ -39,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         Tipo_UsuariosDAo tipo_usuariosDAo = db.tipo_usuariosDAo();
         Estado_ReporteDao estado_reporteDao = db.estado_reporteDao();
         GrupoDao grupoDao = db.grupoDao();
+        EdificioDao edificioDao = db.edificioDao();
+        SalonDao salonDao = db.salonDao();
 
         // 2. Operaciones de base de datos (Ejecutar en hilo para mejor rendimiento)
         new Thread(() -> {
@@ -56,6 +62,18 @@ public class MainActivity extends AppCompatActivity {
             if (grupoDao.getCount() == 0) {
                 grupoDao.insertarGrupo(new Grupo("2526ITII"));
                 grupoDao.insertarGrupo(new Grupo("2425ITII"));
+            }
+
+            if (edificioDao.getCount() == 0) {
+                edificioDao.insertarEdificio(new Edificio("Edificio A"));
+                edificioDao.insertarEdificio(new Edificio("Edificio B"));
+                
+                // Agregar salones de prueba para el Edificio A (asumiendo ID 1)
+                salonDao.insertarSalon(new Salon("Aula 1", 1));
+                salonDao.insertarSalon(new Salon("Aula 2", 1));
+                // Agregar salones de prueba para el Edificio B (asumiendo ID 2)
+                salonDao.insertarSalon(new Salon("Aula 3", 2));
+                salonDao.insertarSalon(new Salon("Aula 4", 2));
             }
         }).start();
 
@@ -85,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
                         if (tipo == 1) {
 
                             Intent ventanaAlumno = new Intent(MainActivity.this, Primera_interfaz_reporte.class);
+                            ventanaAlumno.putExtra("idUsuario", usuario.getId());
                             startActivity(ventanaAlumno);
                             finish();
 

@@ -7,6 +7,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.List;
+
 import yael.alcantara.uptreport.db.Salon;
 
 @Dao
@@ -19,6 +21,12 @@ public interface SalonDao {
 
     @Delete
     void borrarSalon(Salon salon);
+
+    @Query("SELECT * FROM tabla_salon")
+    List<Salon> getAllSalones();
+
+    @Query("SELECT * FROM tabla_salon WHERE idedificio = :idedificio")
+    List<Salon> getSalonesByEdificio(int idedificio);
 
     @Query("SELECT * FROM tabla_salon")
     int getCount();

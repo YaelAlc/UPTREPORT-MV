@@ -12,7 +12,7 @@ import yael.alcantara.uptreport.db.Reportes;
 public interface ReportesDao {
 
     @Insert
-    void insertarReportes(Reportes reportes);
+    long insertarReportes(Reportes reportes);
 
     @Update
     void actualizarReportes(Reportes reportes);
