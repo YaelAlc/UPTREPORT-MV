@@ -22,7 +22,7 @@ public interface UsuariosDao {
 
     //Consultas
     @Query("SELECT * FROM tabla_usuarios WHERE matricula= :matricula LIMIT 1")
-    Usuarios obtenerIdPorMatricula(Integer matricula);
+    Usuarios obtenerIdPorMatricula(String matricula);
 
     @Query("SELECT * FROM tabla_usuarios WHERE matricula = :matricula  AND contrasenia = :contrasenia LIMIT 1")
     Usuarios iniciar(String matricula, String contrasenia);

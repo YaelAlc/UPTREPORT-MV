@@ -33,7 +33,7 @@ public class Usuarios {
     private int id;
 
     @ColumnInfo(name= "matricula")
-    private int matricula;
+    private String matricula;
 
     @ColumnInfo(name= "nombre")
     private String nombre;
@@ -55,7 +55,7 @@ public class Usuarios {
     @ColumnInfo(name = "id_tipo")
     private String id_tipo;
 
-    public Usuarios(int matricula, String nombre, String apellidoP, String apellidoM,int idgrupo,String correo,String contrasenia, String id_tipo){
+    public Usuarios(String matricula, String nombre, String apellidoP, String apellidoM,int idgrupo,String correo,String contrasenia, String id_tipo){
         this.matricula=matricula;
         this.nombre = nombre;
         this.apellidoM = apellidoM;
@@ -73,11 +73,11 @@ public class Usuarios {
         this.id= id;
     }
 
-    public int getMatricula(){
+    public String getMatricula(){
         return matricula;
     }
 
-    public void setMatricula(int matricula){
+    public void setMatricula(String matricula){
         this.matricula= matricula;
     }
 
@@ -136,4 +136,3 @@ public class Usuarios {
         return id_tipo;
     }
 }
-

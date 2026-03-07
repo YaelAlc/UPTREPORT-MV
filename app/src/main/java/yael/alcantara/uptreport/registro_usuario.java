@@ -70,7 +70,7 @@ public class registro_usuario extends AppCompatActivity {
                 return;
             }
 
-            int matricula = Integer.parseInt(mat);
+            String matricula = edtMatricula.getText().toString().trim();
             String nombre = edtNombre.getText().toString().trim();
             String apellidoP = edtApellidoP.getText().toString().trim();
             String apellidoM = edtApellidoM.getText().toString().trim();
