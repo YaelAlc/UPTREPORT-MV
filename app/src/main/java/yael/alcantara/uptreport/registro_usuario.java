@@ -32,68 +32,75 @@ public class registro_usuario extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_usuario);
-        edtApellidoM =findViewById(R.id.edtApellidoM);
-        edtContrasenia = findViewById(R.id.edtContrasenia);
-        edtNombre =findViewById(R.id.edtNombre);
+
         edtMatricula = findViewById(R.id.edtMatricula);
+        edtNombre = findViewById(R.id.edtNombre);
         edtApellidoP = findViewById(R.id.edtApellidoP);
-        edtCorreo =findViewById(R.id.edtCorreo);
-        spinnerGrupo =findViewById(R.id.spinnerGrupo);
-        btnGuardar =findViewById(R.id.btnGuardar);
+        edtApellidoM = findViewById(R.id.edtApellidoM);
+        spinnerGrupo = findViewById(R.id.spinnerGrupo);
+        edtCorreo = findViewById(R.id.edtCorreo);
+        edtContrasenia = findViewById(R.id.edtContrasenia);
+        btnGuardar = findViewById(R.id.btnGuardar);
 
         appDatabase db = appDatabase.getInstance(this);
         UsuariosDao dao = db.usuariosDao();
 
-        listaGrupo =db.grupoDao().obtenerGrupos();
+        // 1. CARGAR GRUPOS EN HILO SECUNDARIO
+        new Thread(() -> {
+            listaGrupo = db.grupoDao().obtenerGrupos();
+            List<String> nombresGrupos = new ArrayList<>();
+            for (Grupo g : listaGrupo) {
+                nombresGrupos.add(g.getGrupo());
+            }
 
-        List<String> nombresGrupos =new ArrayList<>();
-        for (Grupo g: listaGrupo){
-            nombresGrupos.add(g.getGrupo());
-        }
-
-        ArrayAdapter<String> adapterGrupo = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item,
-                nombresGrupos);
-
-        adapterGrupo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerGrupo.setAdapter(adapterGrupo);
+            runOnUiThread(() -> {
+                ArrayAdapter<String> adapterGrupo = new ArrayAdapter<>(this,
+                        android.R.layout.simple_spinner_item, nombresGrupos);
+                adapterGrupo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerGrupo.setAdapter(adapterGrupo);
+            });
+        }).start();
 
         btnGuardar.setOnClickListener(v -> {
+            String mat = edtMatricula.getText().toString().trim();
 
+            // VALIDACIÓN: Evitar error si el campo está vacío
+            if (mat.isEmpty()) {
+                edtMatricula.setError("Ingresa una matrícula");
+                return;
+            }
+
+            int matricula = Integer.parseInt(mat);
             String nombre = edtNombre.getText().toString().trim();
-            String ApellidoP = edtApellidoP.getText().toString().trim();
-            String ApellidoM = edtApellidoM.getText().toString().trim();
-            String correo =edtCorreo.getText().toString().trim();
+            String apellidoP = edtApellidoP.getText().toString().trim();
+            String apellidoM = edtApellidoM.getText().toString().trim();
+            String correo = edtCorreo.getText().toString().trim();
             String contrasenia = edtContrasenia.getText().toString().trim();
-            String mat= edtMatricula.getText().toString().trim();
-            Integer matricula = Integer.valueOf(mat);
-            String grupoSeleccionado = spinnerGrupo.getSelectedItem().toString();
 
-            int idgrupo = listaGrupo.stream().filter(g -> g.getGrupo().equals(grupoSeleccionado)).findFirst().map(Grupo::getId).orElse(0);
+            String grupoSeleccionado = (spinnerGrupo.getSelectedItem() != null) ?
+                    spinnerGrupo.getSelectedItem().toString() : "";
 
             new Thread(() -> {
+                // Obtener el ID del grupo
+                int idgrupo = listaGrupo.stream()
+                        .filter(g -> g.getGrupo().equals(grupoSeleccionado))
+                        .findFirst()
+                        .map(Grupo::getId)
+                        .orElse(0);
 
                 Usuarios existente = dao.obtenerIdPorMatricula(matricula);
 
+                if (existente != null) {
+                    runOnUiThread(() -> edtMatricula.setError("Ya existe esta matrícula"));
+                } else {
+                    // 2. INSERTAR Y FINALIZAR
+                    Usuarios nuevo = new Usuarios(matricula, nombre, apellidoP, apellidoM, idgrupo, correo, contrasenia, "1");
+                    dao.insertarUsuario(nuevo);
 
-                runOnUiThread(() -> {
-                    if (existente != null) {
-                        edtMatricula.setError("Ya existe un usuario con esta matricula");
-                    } else{
-                        if (existente == null) {
-                            Usuarios nuevo = new Usuarios(matricula, nombre, ApellidoP, ApellidoM, idgrupo, correo, contrasenia, "1");
-                            dao.insertarUsuario(nuevo);
-
-
-                            runOnUiThread(this::finish);
-                        }
-                    }
-                });
+                    // Es vital volver al hilo principal para cerrar la actividad
+                    runOnUiThread(this::finish);
+                }
             }).start();
-
         });
-
-
-
     }
 }
