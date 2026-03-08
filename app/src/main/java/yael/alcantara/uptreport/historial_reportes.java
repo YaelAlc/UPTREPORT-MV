@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +26,7 @@ public class historial_reportes extends AppCompatActivity {
 
     private LinearLayout layoutReportes;
     private Spinner spinnerEstado;
-    private int idUsuario = 1;
+    private int idUsuario;
     private appDatabase database;
 
     @Override
@@ -33,6 +34,15 @@ public class historial_reportes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_historial_reportes);
+
+        // Obtener el ID del usuario desde el Intent
+        idUsuario = getIntent().getIntExtra("idUsuario", -1);
+
+        if (idUsuario == -1) {
+            Toast.makeText(this, "Error: No se pudo identificar al usuario", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -66,7 +76,7 @@ public class historial_reportes extends AppCompatActivity {
         spinnerEstado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int estadoSeleccionado = position;
+                int estadoSeleccionado = position; // coincide con ids
                 cargarReportesFiltrados(estadoSeleccionado);
             }
 
@@ -79,7 +89,7 @@ public class historial_reportes extends AppCompatActivity {
         new Thread(() -> {
             List<ReporteCompleto> reportes;
 
-            if(estadoSeleccionado == 0){
+            if(estadoSeleccionado == 0){ // Todos
                 reportes = database.reportesDao().getReportesPorUsuario(idUsuario);
             } else {
                 reportes = database.reportesDao().getReportesPorUsuarioYEstado(idUsuario, estadoSeleccionado);
@@ -105,6 +115,7 @@ public class historial_reportes extends AppCompatActivity {
                     tvFecha.setText("Fecha: " + sdf.format(r.Fecha));
                     tvEstado.setText("Estado: " + getNombreEstado(r.id_estado));
 
+                    // Traer evidencias de este reporte
                     List<String> urls = database.reportesDao().getEvidenciasPorReporte(r.id);
                     if(urls.isEmpty()){
                         tvEvidencias.setText("Evidencias: Ninguna");
