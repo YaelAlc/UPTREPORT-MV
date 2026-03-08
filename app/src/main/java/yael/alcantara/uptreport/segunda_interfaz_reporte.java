@@ -225,6 +225,11 @@ public class segunda_interfaz_reporte extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 Toast.makeText(this, "Reporte enviado con éxito", Toast.LENGTH_SHORT).show();
+                
+                // Redirigir al historial pasando el ID del usuario
+                Intent intent = new Intent(segunda_interfaz_reporte.this, historial_reportes.class);
+                intent.putExtra("idUsuario", idUsuario);
+                startActivity(intent);
                 finish();
             });
         }).start();

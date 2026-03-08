@@ -22,6 +22,9 @@ public interface SalonDao {
     @Delete
     void borrarSalon(Salon salon);
 
+    @Query("SELECT * FROM tabla_salon WHERE id = :id LIMIT 1")
+    Salon getSalonById(int id);
+
     @Query("SELECT * FROM tabla_salon")
     List<Salon> getAllSalones();
 

@@ -25,6 +25,9 @@ public interface EdificioDao {
     @Query("SELECT * FROM tabla_edificios WHERE edificio = :edificio LIMIT 1")
     Edificio buscarporNombreE(String edificio);
 
+    @Query("SELECT * FROM tabla_edificios WHERE id = :id LIMIT 1")
+    Edificio getEdificioById(int id);
+
     @Query("SELECT * FROM tabla_edificios")
     List<Edificio> getAllEdificios();
 
