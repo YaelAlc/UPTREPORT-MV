@@ -65,15 +65,26 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (edificioDao.getCount() == 0) {
-                edificioDao.insertarEdificio(new Edificio("Edificio A"));
-                edificioDao.insertarEdificio(new Edificio("Edificio B"));
-                
-                // Agregar salones de prueba para el Edificio A (asumiendo ID 1)
-                salonDao.insertarSalon(new Salon("Aula 1", 1));
-                salonDao.insertarSalon(new Salon("Aula 2", 1));
-                // Agregar salones de prueba para el Edificio B (asumiendo ID 2)
-                salonDao.insertarSalon(new Salon("Aula 3", 2));
-                salonDao.insertarSalon(new Salon("Aula 4", 2));
+                edificioDao.insertarEdificio(new Edificio("Edificio 1"));
+                edificioDao.insertarEdificio(new Edificio("Edificio 2"));
+                edificioDao.insertarEdificio(new Edificio("Edificio 3"));
+                edificioDao.insertarEdificio(new Edificio("Centro de Investigaciones (queso)"));
+
+                // Salones Edificio 1 (ID 1)
+                String[] salonesE1 = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16","auditorio","idiomas 1","Finanzas","Negocios","Sala de juntas","Departamento de información"};
+                for (String s : salonesE1) salonDao.insertarSalon(new Salon(s, 1));
+
+                // Salones Edificio 2 (ID 2)
+                String[] salonesE2 = {"17","20", "21","22","23","24","25","28","29","30","31","32","33","Monitoreo de Universidad Segura","Jefatura de Vinculación","Ídiomas 4","Enfermería","Extención Extracurricular","Centro de Negocios","Coordinación de Íngles","Control Escolar","Tutorías Asesorías","Dirección de Ingenierías","Área de Desarrollo de Software","Electrónica","Tecnologías de manufactura","Sala de muestras","Química","Gimnasio","Idiomas 3"};
+                for (String s : salonesE2) salonDao.insertarSalon(new Salon(s, 2));
+
+                // Salones Edificio 3 (ID 3)
+                String[] salonesE3 = {"34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50","Site 4","Biblioteca","Gimnasio 2","Software 1","Observatorio Empresarial Universitario","Abogacia","Nodo UPT ANIERN","Dirección Licenciatura","Laboratorio de Software 2"};
+                for (String s : salonesE3) salonDao.insertarSalon(new Salon(s, 3));
+
+                // Salones Queso (ID 4)
+                String[] salonesQueso = {"Investigacion","CAD CAM","Metrologia","CIM","Maquinas y Herramientas","Macanica Automotriz","Proyectos de Ingenieria","Hidraulica y Neumatica","Sala de Reuniones,","Laboratorio de TICS","Desarrollo de Formulacion de Proyectos","Desrrollo de Formulacion de Programacion","Unidades Economicas"};
+                for (String s : salonesQueso) salonDao.insertarSalon(new Salon(s, 4));
             }
         }).start();
 
