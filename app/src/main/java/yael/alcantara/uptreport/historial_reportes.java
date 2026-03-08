@@ -18,14 +18,14 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-import yael.alcantara.uptreport.db.Reportes;
+import yael.alcantara.uptreport.db.ReporteCompleto;
 import yael.alcantara.uptreport.db.appDatabase;
 
 public class historial_reportes extends AppCompatActivity {
 
     private LinearLayout layoutReportes;
     private Spinner spinnerEstado;
-    private int idUsuario = 1; // Aquí pones el ID del usuario logueado
+    private int idUsuario = 1; // ID del usuario logueado
     private appDatabase database;
 
     @Override
@@ -40,17 +40,13 @@ public class historial_reportes extends AppCompatActivity {
             return insets;
         });
 
-        // Referencias
-        layoutReportes = findViewById(R.id.layoutReportes); // LinearLayout dentro del ScrollView
+        layoutReportes = findViewById(R.id.layoutReportes);
         spinnerEstado = findViewById(R.id.spinner3);
-
         database = appDatabase.getInstance(this);
 
-        // Configurar spinner con filtros
         configurarSpinnerEstado();
     }
 
-    // Mapeo id_estado → texto
     private String getNombreEstado(int id_estado){
         switch(id_estado){
             case 1: return "Pendiente";
@@ -60,7 +56,6 @@ public class historial_reportes extends AppCompatActivity {
         }
     }
 
-    // Configura spinner y listener
     private void configurarSpinnerEstado(){
         String[] estados = {"Todos", "Pendiente", "En proceso", "Completo"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
@@ -71,20 +66,18 @@ public class historial_reportes extends AppCompatActivity {
         spinnerEstado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // position 0 = Todos, 1 = Pendiente, 2 = En proceso, 3 = Completo
-                int estadoSeleccionado = position;
+                int estadoSeleccionado = position; // coincide con ids
                 cargarReportesFiltrados(estadoSeleccionado);
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
-    // Cargar reportes filtrados por estado
     private void cargarReportesFiltrados(int estadoSeleccionado){
         new Thread(() -> {
-            List<Reportes> reportes;
+            List<ReporteCompleto> reportes;
 
             if(estadoSeleccionado == 0){ // Todos
                 reportes = database.reportesDao().getReportesPorUsuario(idUsuario);
@@ -94,10 +87,9 @@ public class historial_reportes extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 layoutReportes.removeAllViews();
-
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
-                for(Reportes r : reportes){
+                for(ReporteCompleto r : reportes){
                     View item = getLayoutInflater().inflate(R.layout.item_reporte, layoutReportes, false);
 
                     TextView tvDescripcion = item.findViewById(R.id.tvDescripcion);
@@ -105,12 +97,25 @@ public class historial_reportes extends AppCompatActivity {
                     TextView tvSalon = item.findViewById(R.id.tvSalon);
                     TextView tvFecha = item.findViewById(R.id.tvFecha);
                     TextView tvEstado = item.findViewById(R.id.tvEstado);
+                    TextView tvEvidencias = item.findViewById(R.id.tvEvidencias);
 
-                    tvDescripcion.setText(r.getDescripcion());
-                    tvEdificio.setText("Edificio: " + r.getIdedificio());
-                    tvSalon.setText("Salón: " + r.getIdsalon());
-                    tvFecha.setText("Fecha: " + sdf.format(r.getFecha()));
-                    tvEstado.setText("Estado: " + getNombreEstado(r.getId_estado()));
+                    tvDescripcion.setText(r.Descripcion);
+                    tvEdificio.setText("Edificio: " + r.nombreEdificio);
+                    tvSalon.setText("Salón: " + r.nombreSalon);
+                    tvFecha.setText("Fecha: " + sdf.format(r.Fecha));
+                    tvEstado.setText("Estado: " + getNombreEstado(r.id_estado));
+
+                    // Traer evidencias de este reporte
+                    List<String> urls = database.reportesDao().getEvidenciasPorReporte(r.id);
+                    if(urls.isEmpty()){
+                        tvEvidencias.setText("Evidencias: Ninguna");
+                    } else {
+                        StringBuilder sb = new StringBuilder("Evidencias:\n");
+                        for(String u : urls){
+                            sb.append(u).append("\n");
+                        }
+                        tvEvidencias.setText(sb.toString());
+                    }
 
                     layoutReportes.addView(item);
                 }

@@ -8,6 +8,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import yael.alcantara.uptreport.db.ReporteCompleto;
 import yael.alcantara.uptreport.db.Reportes;
 
 @Dao
@@ -21,11 +22,29 @@ public interface ReportesDao {
 
     @Delete
     void borrarReportes(Reportes reportes);
-    @Query("SELECT * FROM Tabla_Reportes WHERE idusuarios = :idUsuario ORDER BY Fecha DESC")
-    List<Reportes> getReportesPorUsuario(int idUsuario);
 
-    @Query("SELECT * FROM Tabla_Reportes WHERE idusuarios = :idUsuario AND id_estado = :estado ORDER BY Fecha DESC")
-    List<Reportes> getReportesPorUsuarioYEstado(int idUsuario, int estado);
+    @Query("""
+        SELECT r.*, e.edificio AS nombreEdificio, s.salon AS nombreSalon
+        FROM Tabla_Reportes r
+        INNER JOIN Tabla_Edificios e ON r.idedificio = e.id
+        INNER JOIN Tabla_Salon s ON r.idsalon = s.id
+        WHERE r.idusuarios = :idUsuario
+        ORDER BY r.Fecha DESC
+    """)
+    List<ReporteCompleto> getReportesPorUsuario(int idUsuario);
+
+    @Query("""
+        SELECT r.*, e.edificio AS nombreEdificio, s.salon AS nombreSalon
+        FROM Tabla_Reportes r
+        INNER JOIN Tabla_Edificios e ON r.idedificio = e.id
+        INNER JOIN Tabla_Salon s ON r.idsalon = s.id
+        WHERE r.idusuarios = :idUsuario AND r.id_estado = :estado
+        ORDER BY r.Fecha DESC
+    """)
+    List<ReporteCompleto> getReportesPorUsuarioYEstado(int idUsuario, int estado);
+
+    @Query("SELECT url FROM Tabla_Evidencias WHERE id_reporte = :idReporte")
+    List<String> getEvidenciasPorReporte(int idReporte);
 
 
 }
