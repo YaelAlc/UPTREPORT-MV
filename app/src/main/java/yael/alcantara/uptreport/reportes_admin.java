@@ -21,7 +21,6 @@ public class reportes_admin extends AppCompatActivity {
 
         recyclerReportes.setLayoutManager(new LinearLayoutManager(this));
 
-        // Datos de prueba (luego los cambiamos por la BD)
         List<String> lista = new ArrayList<>();
         lista.add("Reporte 1");
         lista.add("Reporte 2");

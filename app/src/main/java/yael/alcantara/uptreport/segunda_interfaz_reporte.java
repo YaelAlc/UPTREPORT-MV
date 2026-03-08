@@ -64,7 +64,7 @@ public class segunda_interfaz_reporte extends AppCompatActivity {
 
         database = appDatabase.getInstance(this);
 
-        // Referencias a componentes
+
         imageView = findViewById(R.id.imageView4);
         btnAdjuntar = findViewById(R.id.button2);
         btnEnviar = findViewById(R.id.button);
@@ -72,11 +72,11 @@ public class segunda_interfaz_reporte extends AppCompatActivity {
         spinnerSalon = findViewById(R.id.spinner2);
         edtFecha = findViewById(R.id.editTextDate2);
 
-        // Recibir datos desde la primera interfaz
+
         descripcion = getIntent().getStringExtra("descripcion");
         idUsuario = getIntent().getIntExtra("idUsuario", -1);
 
-        // Configurar selector de imagen
+
         seleccionarImagenLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -87,19 +87,15 @@ public class segunda_interfaz_reporte extends AppCompatActivity {
                 }
         );
 
-        // Cargar edificios
+
         cargarEdificios();
 
-        // Botón adjuntar evidencia
         btnAdjuntar.setOnClickListener(v -> abrirGaleria());
 
-        // Selector de fecha
         edtFecha.setOnClickListener(v -> mostrarDatePicker());
 
-        // Botón enviar
         btnEnviar.setOnClickListener(v -> guardarReporte());
 
-        // Listener para el spinner de edificios
         spinnerEdificio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -199,7 +195,6 @@ public class segunda_interfaz_reporte extends AppCompatActivity {
                 return;
             }
 
-            // El estado inicial es "Pendiente" (ID 1 según MainActivity)
             int idEstadoPendiente = 1;
 
             Reportes reporte = new Reportes(
@@ -225,8 +220,7 @@ public class segunda_interfaz_reporte extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 Toast.makeText(this, "Reporte enviado con éxito", Toast.LENGTH_SHORT).show();
-                
-                // Redirigir al historial pasando el ID del usuario
+
                 Intent intent = new Intent(segunda_interfaz_reporte.this, historial_reportes.class);
                 intent.putExtra("idUsuario", idUsuario);
                 startActivity(intent);

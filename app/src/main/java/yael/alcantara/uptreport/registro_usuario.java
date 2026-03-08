@@ -45,7 +45,6 @@ public class registro_usuario extends AppCompatActivity {
         appDatabase db = appDatabase.getInstance(this);
         UsuariosDao dao = db.usuariosDao();
 
-        // 1. CARGAR GRUPOS EN HILO SECUNDARIO
         new Thread(() -> {
             listaGrupo = db.grupoDao().obtenerGrupos();
             List<String> nombresGrupos = new ArrayList<>();
@@ -64,7 +63,6 @@ public class registro_usuario extends AppCompatActivity {
         btnGuardar.setOnClickListener(v -> {
             String mat = edtMatricula.getText().toString().trim();
 
-            // VALIDACIÓN: Evitar error si el campo está vacío
             if (mat.isEmpty()) {
                 edtMatricula.setError("Ingresa una matrícula");
                 return;
@@ -81,7 +79,7 @@ public class registro_usuario extends AppCompatActivity {
                     spinnerGrupo.getSelectedItem().toString() : "";
 
             new Thread(() -> {
-                // Obtener el ID del grupo
+
                 int idgrupo = listaGrupo.stream()
                         .filter(g -> g.getGrupo().equals(grupoSeleccionado))
                         .findFirst()
@@ -93,11 +91,10 @@ public class registro_usuario extends AppCompatActivity {
                 if (existente != null) {
                     runOnUiThread(() -> edtMatricula.setError("Ya existe esta matrícula"));
                 } else {
-                    // 2. INSERTAR Y FINALIZAR
+
                     Usuarios nuevo = new Usuarios(matricula, nombre, apellidoP, apellidoM, idgrupo, correo, contrasenia, "1");
                     dao.insertarUsuario(nuevo);
 
-                    // Es vital volver al hilo principal para cerrar la actividad
                     runOnUiThread(this::finish);
                 }
             }).start();

@@ -25,7 +25,7 @@ public class historial_reportes extends AppCompatActivity {
 
     private LinearLayout layoutReportes;
     private Spinner spinnerEstado;
-    private int idUsuario = 1; // ID del usuario logueado
+    private int idUsuario = 1;
     private appDatabase database;
 
     @Override
@@ -66,7 +66,7 @@ public class historial_reportes extends AppCompatActivity {
         spinnerEstado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int estadoSeleccionado = position; // coincide con ids
+                int estadoSeleccionado = position;
                 cargarReportesFiltrados(estadoSeleccionado);
             }
 
@@ -79,7 +79,7 @@ public class historial_reportes extends AppCompatActivity {
         new Thread(() -> {
             List<ReporteCompleto> reportes;
 
-            if(estadoSeleccionado == 0){ // Todos
+            if(estadoSeleccionado == 0){
                 reportes = database.reportesDao().getReportesPorUsuario(idUsuario);
             } else {
                 reportes = database.reportesDao().getReportesPorUsuarioYEstado(idUsuario, estadoSeleccionado);
@@ -105,7 +105,6 @@ public class historial_reportes extends AppCompatActivity {
                     tvFecha.setText("Fecha: " + sdf.format(r.Fecha));
                     tvEstado.setText("Estado: " + getNombreEstado(r.id_estado));
 
-                    // Traer evidencias de este reporte
                     List<String> urls = database.reportesDao().getEvidenciasPorReporte(r.id);
                     if(urls.isEmpty()){
                         tvEvidencias.setText("Evidencias: Ninguna");
