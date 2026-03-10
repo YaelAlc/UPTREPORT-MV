@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Primera_interfaz_reporte extends AppCompatActivity {
      public EditText edtDescripcion;
-     public Button btnSiguiente;
+     public Button btnSiguiente, btnReportes;
      private int idUsuario;
 
     @Override
@@ -22,6 +22,7 @@ public class Primera_interfaz_reporte extends AppCompatActivity {
         
         edtDescripcion=findViewById(R.id.edtmDescripcion);
         btnSiguiente=findViewById(R.id.btnSiguiente);
+        btnReportes=findViewById(R.id.btnReportes);
         btnSiguiente.setOnClickListener(v -> {
             String descripcion = edtDescripcion.getText().toString().trim();
 
@@ -35,6 +36,11 @@ public class Primera_interfaz_reporte extends AppCompatActivity {
                 edtDescripcion.setError("Ingresa una descripción");
                 edtDescripcion.requestFocus();
             }
+        });
+
+        btnReportes.setOnClickListener(v ->{
+            Intent historial_reportes = new Intent(Primera_interfaz_reporte.this, historial_reportes.class);
+            startActivity(historial_reportes);
         });
     }
 }
